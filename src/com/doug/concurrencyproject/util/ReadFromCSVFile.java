@@ -10,17 +10,20 @@ public class ReadFromCSVFile {
 
 	// Variable to stores the path to the CSV file
 	private String filePath;
+	// Creates a list of lists to store the CSV data
+	private List<List<Integer>> allRows = new ArrayList<>();
 
 	// Constructor that sets the file path
 	public ReadFromCSVFile(String filePath) {
 		this.filePath = filePath;
 	}
 
+	public List<List<Integer>> getAllRows() {
+		return allRows;
+	}
+
 	// Method that reads the CSV file and returns a list of lists of integers
 	public List<List<Integer>> ReadFile() throws IOException {
-
-		// Creates a list of lists to store the CSV data
-		List<List<Integer>> allRows = new ArrayList<>();
 
 		// Creates a list to store a single row of data
 		List<Integer> singleRow;
@@ -46,14 +49,29 @@ public class ReadFromCSVFile {
 			}
 			br.close();
 
-		// Handling possible exceptions
+			// Handling possible exceptions
 		} catch (IOException e) {
 			throw new IOException("Error while reading the file.", e);
 		} catch (NumberFormatException e) {
 			throw new NumberFormatException("Error while parsing the value to integer.");
 		}
-		
+
 		// Returns the list of all the rows in the file
 		return allRows;
 	}
+
+	// Prints the data set
+	public void printDataSet() throws IOException {
+		ReadFile();
+		int rowCount = getAllRows().size();
+		int colCount = getAllRows().get(0).size();
+
+		for (int i = 0; i < rowCount; i++) {
+			for (int j = 0; j < colCount; j++) {
+				System.out.print(getAllRows().get(i).get(j) + "\t");
+			}
+			System.out.println();
+		}
+	}
+
 }
